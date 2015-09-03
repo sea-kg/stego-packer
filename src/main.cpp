@@ -17,7 +17,7 @@
 
 QString toBin(QString text)
 {
-	QByteArray arr = text.toAscii();
+	QByteArray arr = text.toLatin1();
 	QString result = "";
 	for (int i = 0; i < arr.size(); i++) {
 		unsigned char ch = arr.at(i);
@@ -30,12 +30,12 @@ QString toBin(QString text)
 
 QString fromBin(QString text)
 {
-	QByteArray arr = text.toAscii();
+	QByteArray arr = text.toLatin1();
 	QByteArray arrRes( arr.size()/8, 0);
-	
+
 	for (int i = 0; i < arr.size(); i++) {
 		char ch = arr.at(i);
-		
+
 		if (ch == '1') {
 			int posBit = (7 - (i % 8));
 			int posByte = i / 8;
@@ -52,7 +52,7 @@ QString fromBin(QString text)
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
-	
+
 	if (argc != 3 && argc != 5)
 	{
 		std::cout << "usage: \n\t" << argv[0] << " pack <inputfile.png> <outputfile.png> <text>\n or: \n";
@@ -60,15 +60,15 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	QString command(argv[1]);
-	
+
 	if (command == "pack") {
 		std::cout << " * PACK \n";
 		QString inputfilename(argv[2]);
 		QString outputfilename(argv[3]);
 		QString text(argv[4]);
 		QString textBin = toBin(text);
-		
-		QString res = text.toAscii().toHex();
+
+		QString res = text.toLatin1().toHex();
 		std::cout << "text: " << text.toStdString() << "\n";
 		// std::cout << "textBin: " << textBin.toStdString() << "\n";
 		// std::cout << "textLength: " << textBin.length() << "\n";
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 		
 		std::cout << "size: " << w << "px X " << h << " px, possible write bytes: " << (h*w)/8 << "\n";
 
-		QByteArray arr = textBin.toAscii();
+		QByteArray arr = textBin.toLatin1();
 		for (int i = 0; i < arr.size(); i++) {
 			int x = i % w;
 			int y = i / w;
